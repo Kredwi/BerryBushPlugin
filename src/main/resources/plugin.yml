@@ -1,0 +1,17 @@
+name: ${project.name}
+description: ${project.description}
+author: ${plugin.author}
+main: ${plugin.main-class}
+version: ${project.version}
+api-version: 1.13
+depend: [ProtocolLib]
+commands:
+  soundp:
+    description: Player fapping
+    aliases:
+      - fap
+      - fapping
+permissions:
+  soundp.use:
+    description: Access to fap
+    default: op
