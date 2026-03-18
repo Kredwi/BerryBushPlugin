@@ -1,27 +1,33 @@
 package ru.kredwi.berrybush;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import lombok.Getter;
+
+import java.util.concurrent.TimeUnit;
 
 public class Cooldown<K> {
 
-    private final Map<K, Long> cooldowns = new HashMap<>();
+    @Getter
+    private final long cooldownTime;
+    private Cache<K, Long> cooldowns;
+
+    public Cooldown(long number) {
+        this.cooldownTime = number;
+        this.cooldowns = CacheBuilder.newBuilder()
+                .expireAfterWrite(number, TimeUnit.SECONDS)
+                .build();
+    }
 
     public void newCooldown(K k) {
         cooldowns.put(k, System.currentTimeMillis());
     }
 
-    public boolean isOnCooldown(K k, long ms) {
-        long currentTime = System.currentTimeMillis();
-        Long startTime = cooldowns.get(k);
-        if (startTime == null)
-            return false;
-
-        boolean expire = (currentTime - startTime) > ms;
-        if (expire)
-            cooldowns.remove(k);
-        return !expire;
+    public boolean isOnCooldown(K k) {
+        return cooldowns.getIfPresent(k) != null;
     }
 
+    public Long getWriteTime(K k) {
+        return cooldowns.getIfPresent(k);
+    }
 }

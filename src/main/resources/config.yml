@@ -1,0 +1,14 @@
+version: 1
+bush:
+  cooldown: 20
+  break-time: 5
+  final-action: ONLY_DROP # SET_TO_MINIMAL ONLY_DROP BREAK
+  max-click-interval: 250
+
+messages:
+  no-permission: "&cВы не можете взаимодействовать с этой культурой"
+  wrong-item: "&cВзаимодействие происходит только ножницами"
+  worldguard-blocked: "&cУ вас нет прав в этом регионе"
+  cooldown: "&cПодождите еще {0} секунд, чтобы снова начать собирать урожай"
+  holding: "&aДержите еще: {0}с"
+  cancelled: "&cСбор прерван"

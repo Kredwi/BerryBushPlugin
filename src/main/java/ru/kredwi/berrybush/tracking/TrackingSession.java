@@ -1,6 +1,9 @@
 package ru.kredwi.berrybush.tracking;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.val;
 import org.bukkit.block.Block;
 
 import java.util.UUID;
@@ -18,6 +21,6 @@ public class TrackingSession {
 
     public boolean isNotExpired() {
         val timeDifference = System.currentTimeMillis() - lastClickTime;
-        return timeDifference < TIME_CLICK_EVENT;
+        return timeDifference >= TIME_CLICK_EVENT;
     }
 }

@@ -1,19 +1,30 @@
 package ru.kredwi.berrybush.tracking;
 
-import lombok.val;
+import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.Vector;
+import ru.kredwi.berrybush.BerryBushPlugin;
+import ru.kredwi.berrybush.Cooldown;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.apache.logging.log4j.util.Strings.EMPTY;
+
+@RequiredArgsConstructor
 public class ButtonPressed {
 
+    private final BerryBushPlugin plugin = JavaPlugin.getPlugin(BerryBushPlugin.class);
+
+    private final Cooldown<Vector> cooldowns;
     private final Map<UUID, TrackingSession> lastTimeClick = new HashMap<>();
 
     public void startTracking(UUID targetBtn, Block targetBlock) {
@@ -23,9 +34,8 @@ public class ButtonPressed {
     }
 
     public void stopTracking(Player player) {
-
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                TextComponent.fromLegacyText(""));
+                TextComponent.fromLegacyText(EMPTY));
 
         lastTimeClick.remove(player.getUniqueId());
     }
@@ -41,13 +51,15 @@ public class ButtonPressed {
             ts.setLastClickTime(System.currentTimeMillis());
             return ts;
         });
-
+        ;
         player.ifPresent(value -> value.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                TextComponent.fromLegacyText("Держите еще: " + (getNeedsClick(value.getUniqueId()) / 1000) + "с")));
+                TextComponent.fromLegacyText(MessageFormat
+                        .format(plugin.getMessageOrKey("messages.holding"), (getNeedsSeconds(value.getUniqueId()) / 1000)))));
     }
 
-    public long getNeedsClick(UUID uuid) {
+    public long getNeedsSeconds(UUID uuid) {
         Optional<TrackingSession> session = Optional.ofNullable(lastTimeClick.get(uuid));
-        return session.map(ts -> ts.getLastClickTime() - ts.getFirstClick()).orElse(0L);
+        long remaining = session.map(ts -> ts.getLastClickTime() - ts.getFirstClick()).orElse(0L);
+        return cooldowns.getCooldownTime() - remaining;
     }
 }

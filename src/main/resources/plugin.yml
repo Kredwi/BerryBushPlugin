@@ -4,14 +4,11 @@ author: ${plugin.author}
 main: ${plugin.main-class}
 version: ${project.version}
 api-version: 1.13
-depend: [ProtocolLib]
-commands:
-  soundp:
-    description: Player fapping
-    aliases:
-      - fap
-      - fapping
+depend: [ WorldEdit ]
 permissions:
-  soundp.use:
-    description: Access to fap
+  bbush.fast:
+    description: Доступ к быстрому выращеванию
     default: op
+  bbush.access:
+    description: Доступ к взаимодействию
+    default: true
