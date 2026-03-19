@@ -8,7 +8,7 @@
     <artifactId>BerryBushPlugin</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
-    <description>Add lazy break berry bush</description>
+    <description>Slow extraction of sweet berries</description>
 
     <properties>
         <plugin.author>Kredwi</plugin.author>
@@ -16,6 +16,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <lombok.version>1.18.42</lombok.version>
     </properties>
     <contributors>
         <contributor>
@@ -59,18 +60,16 @@
             <version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Source: https://mvnrepository.com/artifact/com.github.dmulloy2/ProtocolLib -->
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.dmulloy2</groupId>-->
-        <!--            <artifactId>ProtocolLib</artifactId>-->
-        <!--            <version>5.2.0</version>-->
-        <!--            <scope>provided</scope>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
             <version>7.0.0</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
@@ -80,7 +79,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.42</version>
+            <version>${lombok.version}</version>
             <scope>compile</scope>
         </dependency>
 
@@ -120,7 +119,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.20</version>
+                            <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

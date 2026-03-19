@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.val;
 import org.bukkit.block.Block;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+import ru.kredwi.berrybush.BerryBushPlugin;
 
 import java.util.UUID;
 
@@ -12,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TrackingSession {
-    private static final int TIME_CLICK_EVENT = 250;
+    private final static Plugin plugin = JavaPlugin.getPlugin(BerryBushPlugin.class);
 
     private UUID playerId;
     private Block block;
@@ -21,6 +24,11 @@ public class TrackingSession {
 
     public boolean isNotExpired() {
         val timeDifference = System.currentTimeMillis() - lastClickTime;
-        return timeDifference >= TIME_CLICK_EVENT;
+        return timeDifference >= getTimeClickEvent();
+    }
+
+    private int getTimeClickEvent() {
+        return plugin.getConfig()
+                .getInt("bush.max-click-interval", 250);
     }
 }

@@ -4,11 +4,11 @@ author: ${plugin.author}
 main: ${plugin.main-class}
 version: ${project.version}
 api-version: 1.13
-depend: [ WorldEdit ]
+softdepend: [ WorldGuard ]
 permissions:
   bbush.fast:
-    description: Доступ к быстрому выращеванию
+    description: Access to fast growing
     default: op
   bbush.access:
-    description: Доступ к взаимодействию
+    description: Access to bush
     default: true

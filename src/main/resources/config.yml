@@ -1,14 +1,16 @@
-version: 1
+version: 1 # config version
+debug: true # enable more logging
+
 bush:
-  cooldown: 20
-  break-time: 5
-  final-action: ONLY_DROP # SET_TO_MINIMAL ONLY_DROP BREAK
-  max-click-interval: 250
+  cooldown: 20 # Cooldown in seconds before the same bush can be harvested again
+  break-time: 5 # Time in seconds required to hold right-click to harvest
+  final-action: ONLY_DROP # SET_TO_MINIMAL, ONLY_DROP, or BREAK
+  max-click-interval: 250 # Max time in milliseconds between clicks before reset
 
 messages:
-  no-permission: "&cВы не можете взаимодействовать с этой культурой"
-  wrong-item: "&cВзаимодействие происходит только ножницами"
-  worldguard-blocked: "&cУ вас нет прав в этом регионе"
-  cooldown: "&cПодождите еще {0} секунд, чтобы снова начать собирать урожай"
-  holding: "&aДержите еще: {0}с"
-  cancelled: "&cСбор прерван"
+  no-permission: "You cannot interact with this crop"
+  wrong-item: "You need shears to harvest this crop"
+  non-grown: "This crop is not ready to harvest"
+  cooldown: "Wait {0} seconds before harvesting again"
+  holding: "Hold for {0}s"
+  cancelled: "Harvest cancelled"

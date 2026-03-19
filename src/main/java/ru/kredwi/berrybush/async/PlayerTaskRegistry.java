@@ -2,12 +2,9 @@ package ru.kredwi.berrybush.async;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-public class PlayerRunnable {
+public class PlayerTaskRegistry {
 
     private final Map<UUID, BukkitRunnable> brm = new HashMap<>();
 
@@ -20,7 +17,15 @@ public class PlayerRunnable {
     }
 
     public BukkitRunnable removeIfPresent(UUID id) {
-        return brm.remove(id);
+        BukkitRunnable runnable = brm.remove(id);
+        if (runnable != null)
+            runnable.cancel();
+        return runnable;
+    }
+
+    public void cleanUp() {
+        new HashSet<>(brm.keySet())
+                .forEach(this::removeIfPresent);
     }
 
 }

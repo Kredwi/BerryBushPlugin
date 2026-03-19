@@ -30,4 +30,8 @@ public class Cooldown<K> {
     public Long getWriteTime(K k) {
         return cooldowns.getIfPresent(k);
     }
+
+    public void cleanUp() {
+        cooldowns.cleanUp();
+    }
 }
