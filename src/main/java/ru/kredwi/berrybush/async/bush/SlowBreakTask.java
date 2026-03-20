@@ -1,6 +1,5 @@
 package ru.kredwi.berrybush.async.bush;
 
-import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -23,7 +22,7 @@ public class SlowBreakTask extends BushTask {
 
     public SlowBreakTask(@NotNull UUID uuid) {
         super(JavaPlugin.getPlugin(BerryBushPlugin.class));
-        this.pid =uuid;
+        this.pid = uuid;
         this.plugin = super.getPlugin();
     }
 
@@ -33,14 +32,12 @@ public class SlowBreakTask extends BushTask {
 
         if (!session.isPresent()) {
             stop(null);
-            plugin.getLog().debug("Session is not present");
             return;
         }
 
         TrackingSession ts = session.get();
 
         if (ts.isExpired()) {
-            plugin.getLog().debug("TS is expired");
             plugin.getButtonPressed().removeTracker(ts.getPlayerId());
             cancel();
             return;
@@ -73,7 +70,7 @@ public class SlowBreakTask extends BushTask {
         Sound sound = getSound(BREAK_SOUND);
         if (sound != null && loc.getWorld() != null)
             loc.getWorld()
-                    .playSound(loc, sound,1.0f, 1.0f);
+                    .playSound(loc, sound, 1.0f, 1.0f);
     }
 
     private void stop(TrackingSession ts) {

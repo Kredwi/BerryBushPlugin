@@ -2,7 +2,7 @@ version: 1 # config version
 debug: true # enable more logging
 
 bush:
-  visible: true
+  visible: true # enable visible break
   cooldown: 20 # Cooldown in seconds before the same bush can be harvested again
   break-time: 5 # Time in seconds required to hold right-click to harvest
   final-action: ONLY_DROP # SET_TO_MINIMAL, ONLY_DROP, or BREAK

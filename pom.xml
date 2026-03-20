@@ -17,6 +17,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.42</lombok.version>
+        <maven.check-snapshot-updates>false</maven.check-snapshot-updates>
     </properties>
     <contributors>
         <contributor>
@@ -47,9 +48,10 @@
             <id>EngineHub</id>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
+        <!-- BStats (change to codemc.io) -->
         <repository>
-            <id>codemc</id>
-            <url>https://repo.codemc.io/repository/maven-public/</url>
+            <id>GlareMasters Pub Repository</id>
+            <url>https://repo.glaremasters.me/repository/public/</url>
         </repository>
     </repositories>
 

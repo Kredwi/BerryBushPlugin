@@ -5,20 +5,24 @@ import org.bukkit.Material;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+import ru.kredwi.berrybush.BerryBushPlugin;
 import ru.kredwi.berrybush.tracking.TrackingSession;
 
-import java.util.Collection;
-
 public class SetToMinimalAction implements BushAction {
+    private final Plugin plugin = JavaPlugin.getPlugin(BerryBushPlugin.class);
+
     @Override
     public void accept(TrackingSession trackingSession, Player player) {
         BlockData data = trackingSession.getBlock().getBlockData();
         Location loc = trackingSession.getBlock().getLocation();
         if (!(data instanceof Ageable)) return;
         if (loc.getWorld() != null) {
-            Collection<ItemStack> drops = trackingSession.getBlock().getDrops();
-            drops.forEach(drop -> loc.getWorld().dropItemNaturally(loc, drop));
+            getDrop(trackingSession.getBlock()).forEach(drop -> {
+                addAttribute(drop, plugin);
+                loc.getWorld().dropItemNaturally(loc, drop);
+            });
         }
         trackingSession.getBlock().setBlockData(createNewBlockData(trackingSession.getBlock().getType()));
     }

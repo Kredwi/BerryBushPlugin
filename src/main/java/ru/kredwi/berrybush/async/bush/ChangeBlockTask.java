@@ -17,7 +17,7 @@ public class ChangeBlockTask extends BushTask {
 
     public ChangeBlockTask(UUID uuid) {
         super(JavaPlugin.getPlugin(BerryBushPlugin.class));
-        this.uuid =uuid;
+        this.uuid = uuid;
         this.plugin = super.getPlugin();
     }
 
@@ -39,7 +39,7 @@ public class ChangeBlockTask extends BushTask {
             return;
         plugin.getButtonPressed().stopTracking(player.get());
 
-        last(ts,player.get());
+        last(ts, player.get());
 
         plugin.getCooldown().newCooldown(ts.getBlock().getLocation().toVector());
     }

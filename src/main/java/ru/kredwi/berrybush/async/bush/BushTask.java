@@ -20,17 +20,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public abstract class BushTask extends BukkitRunnable {
 
+    public static final String BREAK_SOUND = "bush.farm-sound";
     private static final String MSG_VAULT_REWARD = "messages.vault.reward";
     private static final String VAULT_REWARD_NUMBER = "depend.vault.harvest-reward";
     private static final String LAST_ACTION_KEY = "bush.final-action";
-    public static final String BREAK_SOUND = "bush.farm-sound";
-
     @Getter
     private final BerryBushPlugin plugin;
 
     protected void last(@NotNull TrackingSession ts, @NotNull Player player) {
         String lastAction = plugin.getConfig().getString(LAST_ACTION_KEY);
-
         getAction(lastAction)
                 .ifPresent(method -> {
                     method.run(ts, player);
@@ -38,7 +36,7 @@ public abstract class BushTask extends BukkitRunnable {
                     Sound sound = getSound(BREAK_SOUND);
                     if (sound != null && loc.getWorld() != null)
                         loc.getWorld()
-                                .playSound(loc, sound,1.0f, 1.0f);
+                                .playSound(loc, sound, 1.0f, 1.0f);
                 });
 
         Optional<Depend> vault = plugin.getDependFactory().getDepend(Vault.class);
