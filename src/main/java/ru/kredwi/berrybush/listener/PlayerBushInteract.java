@@ -11,7 +11,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -19,9 +21,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.kredwi.berrybush.BerryBushPlugin;
 import ru.kredwi.berrybush.Cooldown;
+import ru.kredwi.berrybush.async.bush.ChangeBlockTask;
+import ru.kredwi.berrybush.async.bush.SlowBreakTask;
 import ru.kredwi.berrybush.depend.Depend;
 import ru.kredwi.berrybush.depend.WorldGuard;
-import ru.kredwi.berrybush.tracking.ChangeBlockData;
 import ru.kredwi.berrybush.tracking.TrackingSession;
 
 import java.text.MessageFormat;
@@ -29,12 +32,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-public class PlayerEatInteract implements Listener {
+public class PlayerBushInteract implements Listener {
 
     private static final String PERM_QUICK_MATURITY = "bbush.fast";
     private static final String PERM_ACCESS = "bbush.access";
 
     private static final String BREAK_TIME = "bush.break-time";
+    private static final String ANIMATE_VISIBLE = "bush.visible";
 
     private static final String MSG_NO_PERMISSION = "messages.no-permission";
     private static final String MSG_WRONG_ITEM = "messages.wrong-item";
@@ -50,6 +54,7 @@ public class PlayerEatInteract implements Listener {
 
         if (!isSupportBush(e.getClickedBlock())) return;
         e.setCancelled(true); // disable next execution for this block
+        if (e.getHand() != EquipmentSlot.HAND) return;
         if (!player.hasPermission(PERM_ACCESS)) {
             player.sendMessage(plugin.getMessageOrKey(MSG_NO_PERMISSION));
             return;
@@ -65,6 +70,14 @@ public class PlayerEatInteract implements Listener {
             if (!((WorldGuard) wg.get()).testBlockInteract(player, e.getClickedBlock()))
                 return; // auto message from worldguard
         }
+
+        Optional<TrackingSession> session = plugin.getButtonPressed().getSession(player.getUniqueId());
+        // update or reset click session
+        if (session.isPresent()) {
+            update(session.get(), player, e.getClickedBlock());
+            return;
+        }
+
         if (!(e.getClickedBlock().getBlockData() instanceof Ageable)) {
             plugin.getLog().debug(String.format("Block with name %s is not ageable", e.getClickedBlock().getType().name()));
             return;
@@ -80,19 +93,11 @@ public class PlayerEatInteract implements Listener {
             }
         }
 
-        Optional<TrackingSession> session = plugin.getButtonPressed().getSession(player.getUniqueId());
-
-        // update or reset click session
-        if (session.isPresent()) {
-            update(session.get(), player, e.getClickedBlock());
-            return;
-        }
-
         startTracking(player.getUniqueId(), e.getClickedBlock());
     }
 
     private void update(TrackingSession session, Player player, Block clickedBlock) {
-        if (session.isNotExpired()) {
+        if (session.isExpired()) {
             stopTracking(player);
             return;
         }
@@ -138,8 +143,16 @@ public class PlayerEatInteract implements Listener {
 
         plugin.getButtonPressed().startTracking(pid, block);
 
-        ChangeBlockData br = new ChangeBlockData(pid);
-        br.runTaskLater(plugin, getBreakTime());
+        BukkitRunnable br;
+
+        if (plugin.getConfig().getBoolean(ANIMATE_VISIBLE)) {
+            br = new SlowBreakTask(pid);
+            int timer = Math.max((getBreakTime() / ((Ageable) block.getBlockData()).getMaximumAge()), 0);
+            br.runTaskTimer(plugin, timer, timer);
+        } else {
+            br = new ChangeBlockTask(pid);
+            br.runTaskLater(plugin, getBreakTime());
+        }
         plugin.getTaskRegistry().addRunnable(pid, br);
     }
 

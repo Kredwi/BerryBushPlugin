@@ -3,6 +3,7 @@ package ru.kredwi.berrybush;
 import lombok.Getter;
 import lombok.val;
 import lombok.var;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,7 +13,7 @@ import ru.kredwi.berrybush.async.PlayerTaskRegistry;
 import ru.kredwi.berrybush.depend.DependFactory;
 import ru.kredwi.berrybush.depend.Vault;
 import ru.kredwi.berrybush.depend.WorldGuard;
-import ru.kredwi.berrybush.listener.PlayerEatInteract;
+import ru.kredwi.berrybush.listener.PlayerBushInteract;
 import ru.kredwi.berrybush.listener.PlayerQuit;
 import ru.kredwi.berrybush.logging.LoggerWrapper;
 import ru.kredwi.berrybush.tracking.ButtonPressed;
@@ -20,6 +21,7 @@ import ru.kredwi.berrybush.tracking.ButtonPressed;
 @Getter
 public class BerryBushPlugin extends JavaPlugin {
 
+    private static final int METRIC_PLUGIN_ID = 30293;
     private static final int REQUIRED_CONFIG_VERSION = 1;
     private static final String BUSH_COOLDOWN_KEY = "bush.cooldown";
     private final LoggerWrapper log = new LoggerWrapper(this, super.getLogger());
@@ -33,8 +35,8 @@ public class BerryBushPlugin extends JavaPlugin {
     public void onEnable() {
         if (!isEnabled())
             return;
+
         var startTime = System.currentTimeMillis();
-        getProvidingPlugin(net.milkbowl.vault.economy.Economy.class);
         getLog().debug("Debug logging is enabled");
 
         saveDefaultConfig();
@@ -45,6 +47,9 @@ public class BerryBushPlugin extends JavaPlugin {
             return;
         }
 
+        // create only instance
+        new Metrics(this, METRIC_PLUGIN_ID);
+
         int cooldownTime = getConfig().getInt(BUSH_COOLDOWN_KEY);
 
         this.taskRegistry = new PlayerTaskRegistry();
@@ -54,7 +59,7 @@ public class BerryBushPlugin extends JavaPlugin {
         try {
 
             val listeners = new Listener[]{
-                    new PlayerEatInteract(),
+                    new PlayerBushInteract(),
                     new PlayerQuit(this)
             };
 
@@ -69,12 +74,18 @@ public class BerryBushPlugin extends JavaPlugin {
         }
 
         log.debug("Loading softdepend addons");
-        dependFactory.addDepend(new WorldGuard(this));
-        dependFactory.addDepend(new Vault(this));
+        if (isDependEnabled("worldguard"))
+            dependFactory.addDepend(new WorldGuard(this));
+        if (isDependEnabled("vault"))
+            dependFactory.addDepend(new Vault(this));
 
         var loadingEndTime = System.currentTimeMillis();
 
         log.debug("Complete plugin load with time " + (loadingEndTime - startTime) + "ms");
+    }
+
+    private boolean isDependEnabled(String dependName) {
+        return getConfig().getBoolean("depend." + dependName + ".enable");
     }
 
     @Override

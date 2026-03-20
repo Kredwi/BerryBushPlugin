@@ -2,15 +2,27 @@ version: 1 # config version
 debug: true # enable more logging
 
 bush:
+  visible: true
   cooldown: 20 # Cooldown in seconds before the same bush can be harvested again
   break-time: 5 # Time in seconds required to hold right-click to harvest
   final-action: ONLY_DROP # SET_TO_MINIMAL, ONLY_DROP, or BREAK
   max-click-interval: 250 # Max time in milliseconds between clicks before reset
+  farm-sound: ENTITY_SHEEP_SHEAR # Sound of break bush
+
+# Section of addons
+depend:
+  worldguard:
+    enable: true
+  vault:
+    enable: true
+    harvest-reward: 255.0
 
 messages:
-  no-permission: "You cannot interact with this crop"
-  wrong-item: "You need shears to harvest this crop"
-  non-grown: "This crop is not ready to harvest"
-  cooldown: "Wait {0} seconds before harvesting again"
-  holding: "Hold for {0}s"
-  cancelled: "Harvest cancelled"
+  no-permission: "§cYou cannot interact with this crop"
+  wrong-item: "§cYou need shears to harvest this crop"
+  non-grown: "§cThis crop is not ready to harvest"
+  cooldown: "§cWait {0} seconds before harvesting again"
+  holding: "§eHold for {0}s"
+  cancelled: "§cHarvest cancelled"
+  vault: # Vault addon messages
+    reward: "§aYou rewarded {0}$"

@@ -2,6 +2,8 @@ package ru.kredwi.berrybush.tracking;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -30,6 +32,10 @@ public class ButtonPressed {
         lastTimeClick.putIfAbsent(targetBtn, session);
     }
 
+    public void removeTracker(UUID playerId) {
+        lastTimeClick.remove(playerId);
+    }
+
     public void stopTracking(Player player) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                 TextComponent.fromLegacyText(EMPTY));
@@ -43,15 +49,13 @@ public class ButtonPressed {
 
     public void update(UUID targetBtn) {
         Optional<Player> player = Optional.ofNullable(Bukkit.getPlayer(targetBtn));
-
         lastTimeClick.computeIfPresent(targetBtn, (_n, ts) -> {
             ts.setLastClickTime(System.currentTimeMillis());
             return ts;
         });
-        ;
         player.ifPresent(value -> value.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                 TextComponent.fromLegacyText(MessageFormat
-                        .format(plugin.getMessageOrKey(MSG_HOLDING_KEY), (getNeedsMs(value.getUniqueId()) / 1000)))));
+                        .format(plugin.getMessageOrKey(MSG_HOLDING_KEY), (getNeedsMs(value.getUniqueId()) / 1000) + 1))));
     }
 
     public long getNeedsMs(UUID uuid) {

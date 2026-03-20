@@ -22,7 +22,7 @@ public class TrackingSession {
     private long lastClickTime;
     private long firstClick;
 
-    public boolean isNotExpired() {
+    public boolean isExpired() {
         val timeDifference = System.currentTimeMillis() - lastClickTime;
         return timeDifference >= getTimeClickEvent();
     }

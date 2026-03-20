@@ -10,7 +10,7 @@ public class Cooldown<K> {
 
     @Getter
     private final long cooldownTime;
-    private Cache<K, Long> cooldowns;
+    private final Cache<K, Long> cooldowns;
 
     public Cooldown(long number) {
         this.cooldownTime = number;

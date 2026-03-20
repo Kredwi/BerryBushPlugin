@@ -7,7 +7,6 @@ import ru.kredwi.berrybush.BerryBushPlugin;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
-import java.util.UUID;
 
 public class Vault implements Depend {
 
@@ -21,7 +20,7 @@ public class Vault implements Depend {
     public Vault(BerryBushPlugin plugin) {
         this.plugin = plugin;
         try {
-
+            Bukkit.getPluginManager().getPlugin("Vault");
             Class<?> clazz = Class.forName("net.milkbowl.vault.economy.Economy");
 
             RegisteredServiceProvider<?> rsp = Bukkit.getServicesManager()
@@ -62,11 +61,11 @@ public class Vault implements Depend {
         }
     }
 
-    public void getBalance(UUID uuid, int number) {
+    public void getBalance(OfflinePlayer offlinePlayer) {
         if (provider == null || getBalance == null)
             return;
         try {
-            getBalance.invoke(provider, uuid, number);
+            getBalance.invoke(provider, offlinePlayer);
         } catch (Exception e) {
             plugin.getLog().debug("[DEPEND] Error of invoke vault method (Vault#getBalance) " + e.getMessage());
         }
