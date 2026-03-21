@@ -2,8 +2,9 @@ name: ${project.name}
 description: ${project.description}
 author: ${plugin.author}
 main: ${plugin.main-class}
+license: MIT
 version: ${project.version}
-api-version: 1.13
+api-version: 1.14
 softdepend: [ WorldGuard, Vault ]
 permissions:
   bbush.fast:

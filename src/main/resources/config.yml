@@ -7,7 +7,14 @@ bush:
   break-time: 5 # Time in seconds required to hold right-click to harvest
   final-action: ONLY_DROP # SET_TO_MINIMAL, ONLY_DROP, or BREAK
   max-click-interval: 250 # Max time in milliseconds between clicks before reset
-  farm-sound: ENTITY_SHEEP_SHEAR # Sound of break bush
+  sound:
+    instrument: ENTITY_SHEEP_SHEAR # Sound of break bush
+    bush: BLOCK_SWEET_BERRY_BUSH_BREAK
+  particle:
+    enable: true
+    particle: BLOCK_DUST
+    count-stage: 64
+    count-last: 194
 
 # Section of addons
 depend:

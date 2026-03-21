@@ -96,8 +96,13 @@ public class BerryBushPlugin extends JavaPlugin {
         cooldown.cleanUp();
     }
 
+    @NotNull
     public String getMessageOrKey(@NotNull String key) {
-        return getConfig().getString(key, key);
+        String s = getConfig().getString(key);
+        if (s == null) {
+            log.debug("message key " + key + " not found");
+            return key;
+        } else return s;
     }
 
     public boolean isDebug() {

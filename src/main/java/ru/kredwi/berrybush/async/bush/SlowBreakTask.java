@@ -1,8 +1,6 @@
 package ru.kredwi.berrybush.async.bush;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
@@ -15,6 +13,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class SlowBreakTask extends BushTask {
+    public static final String BREAK_PARTICLE_COUNT_STAGE = "bush.count-stage";
+
+
     private final BerryBushPlugin plugin;
 
     @NotNull
@@ -63,14 +64,9 @@ public class SlowBreakTask extends BushTask {
         newAgeable.setAge(ageable.getAge() - 1);
 
         ts.getBlock().setBlockData(newAgeable);
-        playSound(ts.getBlock().getLocation());
-    }
+        playSound(ts.getBlock().getLocation(), DEFAULT_SOUNDS.get());
 
-    private void playSound(Location loc) {
-        Sound sound = getSound(BREAK_SOUND);
-        if (sound != null && loc.getWorld() != null)
-            loc.getWorld()
-                    .playSound(loc, sound, 1.0f, 1.0f);
+        spawnParticles(ts.getBlock(), BREAK_PARTICLE, BREAK_PARTICLE_COUNT_STAGE);
     }
 
     private void stop(TrackingSession ts) {

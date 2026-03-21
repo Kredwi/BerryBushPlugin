@@ -43,7 +43,7 @@ public class Vault implements Depend {
     }
 
     public void depositPlayer(OfflinePlayer offlinePlayer, double amount) {
-        if (provider == null | addBalance == null)
+        if (provider == null || addBalance == null)
             return;
         try {
             addBalance.invoke(provider, offlinePlayer, amount);
