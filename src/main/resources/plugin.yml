@@ -4,7 +4,7 @@ author: ${plugin.author}
 main: ${plugin.main-class}
 version: ${project.version}
 api-version: 1.13
-softdepend: [ WorldGuard ]
+softdepend: [ WorldGuard, Vault ]
 permissions:
   bbush.fast:
     description: Access to fast growing

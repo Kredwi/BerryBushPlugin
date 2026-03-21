@@ -1,5 +1,6 @@
 package ru.kredwi.berrybush.depend;
 
+import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -61,13 +62,15 @@ public class Vault implements Depend {
         }
     }
 
-    public void getBalance(OfflinePlayer offlinePlayer) {
+    public double getBalance(OfflinePlayer offlinePlayer) {
+        val defaultValue = 0d;
         if (provider == null || getBalance == null)
-            return;
+            return defaultValue;
         try {
-            getBalance.invoke(provider, offlinePlayer);
+            return (double) getBalance.invoke(provider, offlinePlayer);
         } catch (Exception e) {
             plugin.getLog().debug("[DEPEND] Error of invoke vault method (Vault#getBalance) " + e.getMessage());
+            return defaultValue;
         }
     }
 
