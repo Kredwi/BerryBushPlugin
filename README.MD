@@ -1,5 +1,7 @@
 # BerryBushPlugin
 
+[![Java CI with Maven](https://github.com/Kredwi/BerryBushPlugin/actions/workflows/maven.yml/badge.svg)](https://github.com/Kredwi/BerryBushPlugin/actions/workflows/maven.yml)
+
 ## Basic Information
 
 A Minecraft plugin that adds slow breaking for sweet berries.
