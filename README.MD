@@ -4,6 +4,9 @@
 [![GitHub release](https://img.shields.io/github/v/release/Kredwi/BerryBushPlugin)](https://github.com/Kredwi/BerryBushPlugin/releases)
 [![Downloads](https://img.shields.io/github/downloads/Kredwi/BerryBushPlugin/total)](https://github.com/Kredwi/BerryBushPlugin/releases)
 
+## Demo
+[![Plugin Demo](.github/assets/gif/demo.gif)](https://github.com/Kredwi/BerryBushPlugin/releases)
+
 ## Basic Information
 
 A Minecraft plugin that adds slow breaking for sweet berries.
