@@ -1,5 +1,5 @@
 version: 1 # config version
-debug: true # enable more logging
+debug: false # enable more logging
 
 bush:
   visible: true # enable visible break
