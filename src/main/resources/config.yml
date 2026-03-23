@@ -7,14 +7,14 @@ bush:
   break-time: 5 # Time in seconds required to hold right-click to harvest
   final-action: ONLY_DROP # SET_TO_MINIMAL, ONLY_DROP, or BREAK
   max-click-interval: 250 # Max time in milliseconds between clicks before reset
-  sound:
-    instrument: ENTITY_SHEEP_SHEAR # Sound of break bush
-    bush: BLOCK_SWEET_BERRY_BUSH_BREAK
-  particle:
-    enable: true
-    particle: BLOCK_DUST
-    count-stage: 64
-    count-last: 194
+  sound: # seciton of sounds
+    instrument: ENTITY_SHEEP_SHEAR # bukkit particle name for break instrument
+    bush: BLOCK_SWEET_BERRY_BUSH_BREAK # bukkit particle name for break bush
+  particle: # section of particles
+    enable: true # enalbe particles
+    particle: BLOCK_DUST # bukkit particle name
+    count-stage: 64 # number of count particles for stages
+    count-last: 194 # number of count particles for last stage
 
 # Section of addons
 depend:
