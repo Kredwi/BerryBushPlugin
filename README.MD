@@ -3,6 +3,9 @@
 [![Java CI with Maven](https://github.com/Kredwi/BerryBushPlugin/actions/workflows/maven.yml/badge.svg)](https://github.com/Kredwi/BerryBushPlugin/actions/workflows/maven.yml)
 [![GitHub release](https://img.shields.io/github/v/release/Kredwi/BerryBushPlugin)](https://github.com/Kredwi/BerryBushPlugin/releases)
 [![Downloads](https://img.shields.io/github/downloads/Kredwi/BerryBushPlugin/total)](https://github.com/Kredwi/BerryBushPlugin/releases)
+[![Starts](https://img.shields.io/github/stars/Kredwi/BerryBushPlugin?style=square)](https://github.com/Kredwi/BerryBushPlugin/releases)
+[![](https://img.shields.io/github/last-commit/Kredwi/BerryBushPlugin)](https://github.com/Kredwi/BerryBushPlugin/releases)
+[![](https://img.shields.io/github/license/Kredwi/BerryBushPlugin)](https://github.com/Kredwi/BerryBushPlugin/blob/master/LICENSE)
 
 ## Demo
 [![Plugin Demo](.github/assets/gif/demo.gif)](https://github.com/Kredwi/BerryBushPlugin/releases)
